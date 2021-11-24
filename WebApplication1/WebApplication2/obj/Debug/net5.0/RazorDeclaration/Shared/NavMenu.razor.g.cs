@@ -90,7 +90,7 @@ using WebApplication2.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 28 "C:\git\house\house\WebApplication1\WebApplication2\Shared\NavMenu.razor"
+#line 36 "C:\git\house\house\WebApplication1\WebApplication2\Shared\NavMenu.razor"
        
     private bool collapseNavMenu = true;
 

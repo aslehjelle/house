@@ -1,0 +1,110 @@
+﻿@page "/personanine"
+@inject HttpClient Http
+
+<h1>Plan - Anine</h1>
+
+<p>Anine sin plan.</p>
+
+@if (planElements == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+
+
+
+                <th>Aktivitet</th>
+                <th>Fra</th>
+                <th>Til</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var planElement in planElements)
+            {
+                <tr>
+
+
+                    <td>@planElement.Aktivitet</td>
+                    <td>@planElement.Fra</td>
+                    <td>@planElement.Til</td>
+
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Legg til</p>
+
+    <EditForm Model="@nyttPlanEelement">
+
+        <InputText id="aktivitet" @bind-Value="nyttPlanEelement.Aktivitet" />
+        <InputText id="fra"  @bind-Value="nyttPlanEelement.Fra" />
+        <InputText id="til"  @bind-Value="nyttPlanEelement.Til" />
+        
+        <button type="submit">Submit</button>
+        <!--
+            <button class="btn btn-primary" @onclick="LeggTilAktivitet">Lagre</button>
+        -->
+    </EditForm>
+        }
+
+        @code {
+
+    private PlanElement[] planElements;
+
+        private PlanElement nyttPlanEelement = new PlanElement();
+
+
+        protected override async Task OnInitializedAsync()
+        {
+            //if (!System.IO.File.Exists("sample-data/anine.json"))
+            //{
+            //System.IO.File.Create("sample-data/anine.json");
+            //System.IO.File.WriteAllText("sample-data/anine.json", GetJsonAnine());
+            //}
+
+            planElements = await Http.GetFromJsonAsync<PlanElement[]>("sample-data/anine.json");
+            //if (planElements.Length == 0)
+
+            //    await Http.PutAsJsonAsync<PlanElement[]>("sample-data/anine.json", GetJsonAnine());
+        }
+
+        private async Task LeggTilAktivitet()
+        {
+
+
+            planElements = await Http.GetFromJsonAsync<PlanElement[]>("sample-data/anine.json").ConfigureAwait(false);
+
+
+            List<PlanElement> nyliste = planElements.ToList();
+            nyliste.Add(nyttPlanEelement);
+
+            await Http.PutAsJsonAsync<PlanElement[]>("sample-data/anine.json", nyliste.ToArray());
+
+        }
+
+
+        private PlanElement[] GetJsonAnine()
+        {
+            var aninePlan = new List<PlanElement>()
+{
+            new PlanElement { Aktivitet = "Dans", Fra="17", Til = "18"},
+            new PlanElement { Aktivitet = "Kor", Fra="20", Til = "21"}
+        };
+            return aninePlan.ToArray();
+        }
+
+        public class PlanElement
+        {
+            public string Fra { get; set; }
+            public string Til { get; set; }
+            public string Aktivitet { get; set; }
+        }
+
+        }

@@ -91,7 +91,7 @@ using WebApplication2.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 37 "C:\git\house\house\WebApplication1\WebApplication2\Pages\FetchData.razor"
+#line 38 "C:\git\house\house\WebApplication1\WebApplication2\Pages\FetchData.razor"
        
     private WeatherForecast[] forecasts;
 
@@ -99,6 +99,11 @@ using WebApplication2.Shared;
     {
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
     }
+
+
+
+
+
 
     public class WeatherForecast
     {
@@ -110,6 +115,11 @@ using WebApplication2.Shared;
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
     }
+
+
+
+
+
 
 #line default
 #line hidden
